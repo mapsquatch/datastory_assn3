@@ -80,7 +80,7 @@ svg.append('path')
   .attr('d',"M104.71,191.28l-20.1-20.1a78,78,0,0,0-7.78,24.28c9.3-2.43,18.75-2.75,28.06-4Z")
   .attr('transform',"translate(-75.43 -129.65)");
   
-//bases
+//baseball field
 svg.append('rect')
   .attr('class','cls-3')
   .attr('fill','darkseagreen')
@@ -90,6 +90,7 @@ svg.append('rect')
   .attr('height',39.83) 
   .attr('transform','translate(160.16 -197.75) rotate(45)');
 
+// bases
 svg.append('rect')  
   .attr('class',"cls-2")
   .attr('fill','white')
