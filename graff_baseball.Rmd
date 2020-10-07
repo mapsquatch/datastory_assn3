@@ -1,0 +1,43 @@
+---
+title: "Assignment 3: Dangerous Foul Balls"
+author: "Phil Graff"
+date: "10/5/2020"
+output: html_document
+---
+
+In the summer of 2019, I planned to take my partner, father, and four-year old daughter out to a baseball game. Earlier that spring, I was horrified to watch a video clip of a batter hitting a foul ball into the stands where it struck a two-year old child (Albert Almora batting against Houston Astros). I knew my priority would be to find seats for my family behind protective netting.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+```{r}
+# Import foul-balls.csv downloaded from Five Thirty-Eight's GitHub
+# https://github.com/fivethirtyeight/data/blob/master/foul-balls/foul-balls.csv
+foulballs <- read.csv("foul-balls.csv")
+foulcounts <- table(foulballs$used_zone)
+foulpct <- foulcounts / nrow(foulballs)
+```
+
+
+```{r}
+# Assign colors
+library(RColorBrewer)
+
+# derive number of color bins
+bins <- ceiling(max(foulpct*10))
+
+# Create palette for the number of bins
+palette <- brewer.pal(n = bins, name = "Greens")
+
+# Assign palette value to each stadium region
+hex_vector <- palette[ceiling(foulpct*10)]
+
+# Pass palette vector into D3 script to render field and color stands
+library(r2d3)
+r2d3(data=hex_vector, script = "baseballd3.js")
+
+```
+
