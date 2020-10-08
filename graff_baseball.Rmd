@@ -5,7 +5,9 @@ date: "10/5/2020"
 output: html_document
 ---
 
-In the summer of 2019, I planned to take my partner, father, and four-year old daughter out to a baseball game. Earlier that spring, I was horrified to watch a video clip of a batter hitting a foul ball into the stands where it struck a two-year old child (Albert Almora batting against Houston Astros). I knew my priority would be to find seats for my family behind protective netting.
+In the summer of 2019, I planned to take my partner, father, and four-year old daughter out to a baseball game. Earlier that spring, I was horrified to watch a video clip of a batter hitting a foul ball into the stands where it struck a two-year old child (Albert Almora batting against the Houston Astros). I knew my priority would be to find seats for my family behind protective netting. The Great American Ballpark in Cincinnati had recently installed netting down the first- and third-base lines, so we were easily able to find safe seats with a great view. Because of this experience, this dataset on FiveThirtyEight stood out to me.
+
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -38,6 +40,37 @@ hex_vector <- palette[ceiling(foulpct*10)]
 # Pass palette vector into D3 script to render field and color stands
 library(r2d3)
 r2d3(data=hex_vector, script = "baseballd3.js")
+
+```
+
+```{r}
+# Add classification variable based on exit velocity: over90, under90, unknown
+foulballs$velocity_class[is.na(foulballs$exit_velocity)] <- "unknown"
+foulballs$velocity_class[foulballs$exit_velocity < 90] <- "under90"
+foulballs$velocity_class[foulballs$exit_velocity >= 90] <- "over90"
+
+# Create summary table by zone/velocity class
+velocity_table <- as.data.frame(table(foulballs$used_zone, foulballs$velocity_class))
+
+# Add column names
+colnames(velocity_table) <- c("zone","speed","freq")
+
+```
+
+
+```{r}
+library(ggplot2)
+
+#ggplot(velocity_table)
+
+p <- ggplot(velocity_table, aes(x = freq, y = zone)) +
+  geom_col(aes(fill = speed), width = 0.8, position = position_stack(reverse = TRUE))
+p + theme_minimal() +
+  scale_fill_manual(values=c("#dd6666", "#66dd66", "#bbbbbb")) +
+  labs(title = "Foul Ball Velocities by Zone",
+       caption = "Data from FiveThirtyEight/Baseball Savant",
+       x = "Frequency",
+       y = "Zone")
 
 ```
 
