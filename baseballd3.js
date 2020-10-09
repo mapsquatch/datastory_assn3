@@ -138,3 +138,70 @@ svg.append('rect')
   .attr('height',5.49) 
   .attr('transform',"translate(167.27 -214.92) rotate(45)");
   
+// Zone labels
+svg.append('text')
+  .attr('x',120)
+  .attr('y', 180)
+  .attr('font-family','Arial')
+  .text('1');
+svg.append('text')
+  .attr('x',70)
+  .attr('y', 160)
+  .attr('font-family','Arial')
+  .text('2');
+svg.append('text')
+  .attr('x',170)
+  .attr('y', 160)
+  .attr('font-family','Arial')
+  .text('3');
+svg.append('text')
+  .attr('x',30)
+  .attr('y', 105)
+  .attr('font-family','Arial')
+  .text('4');
+svg.append('text')
+  .attr('x',210)
+  .attr('y', 105)
+  .attr('font-family','Arial')
+  .text('5');
+svg.append('text')
+  .attr('x',10)
+  .attr('y', 60)
+  .attr('font-family','Arial')
+  .text('6');
+svg.append('text')
+  .attr('x',230)
+  .attr('y', 60)
+  .attr('font-family','Arial')
+  .text('7');
+  
+// Legend
+var legend = svg.selectAll(".legendBoxes")
+  .data(["#EDF8E9", "#BAE4B3", "#74C476", "#238B45"])
+  .enter()
+  .append('rect');
+  
+legend.attr('x', function(d,i){return 20 + i * 50 })
+  .attr('y', 230)
+  .attr('width',50)
+  .attr('height',20)
+  .attr('fill',function(d){return d });
+
+var legendLabels = svg.selectAll(".legendLabels")
+  .data([10,20,30,40])
+  .enter()
+  .append('text');
+  
+legendLabels.attr('x', function(d,i){return 62 + i * 50})
+  .attr('y',267)
+  .attr('font-family','Arial')
+  .text(function(d){return d});
+  
+// Title at bottom  
+svg.append('text')
+  .attr('x',10)
+  .attr('y',320)
+  .attr('font-size','0.9em')
+  .attr('font-family','Arial')
+  .text('Percentage of Foul Balls by Zone (1-7)');
+  
